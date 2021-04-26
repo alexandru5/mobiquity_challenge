@@ -14,31 +14,32 @@ Input example
 81 : (1,53.38,€45) (2,88.62,€98) (3,78.48,€3) (4,72.30,€76) (5,30.18,€9) (6,46.34,€48)
 
 # 1 Solution
-As this is a knaspack problem a little bit twisted I go with a dynamic solution and in order to do that
-the weight of the package will be multiplied by 100. Because they're not so many items to pick up from (MAX 15)
-it won't consume to much memory. As number of items and/or item's weight would increase this solution would cause
+I went with a dynamic solution for this problem and to do that the weight of the package will be multiplied by 100
+(supposing that the number weight has 2 digits precision). Because they're not so many items to pick up from (MAX 15)
+it won't consume too much memory. If the number of items and/or item's weight would increase, this solution will cause
 problems as a matrix of size NO_OF_ITEMS x WEIGHT * 100 is created.
 
-After creating the matrix we iterate through it and for current step we check if weights is greater than capacity
-from current step and if not for current step we maximize profit.
+After creating the matrix we iterate through it and for the current step we check if weight is greater than capacity
+from the current step and if not for the current step we maximize profit.
 
 # 2 Java Implementation
-The Solution has two models Item that represent the object from package and TestCase that contains data for a scenario.
-So for both of them I used builder design pattern obtain with @Builder annotation from lombok. Also used different
+The Solution has two models Item that represent the object from the package and TestCase that contains data for a scenario.
+So for both of them, I used the builder design pattern obtained with @Builder annotation from Lombok. Also used different
 annotations from them as @Getter and @Setter as they make code cleaner and easy to understand.
 
-For input and output files we have FileReader class with two static methods that loads content from file into structures.
-This class uses the Parser in order to parse content from file and load it into objects. In it we also have two methods
-one that parse and loads an item and the other for a test case in which it loads test case max capacity and its items.
+For input and output files we have FileReader class with two static methods that load content from a file into structures.
+This class uses the Parser to parse content from a file and load it into objects. In it, we also have two methods
+one that parses and loads an item and the other for a test case in which it loads test case max capacity and its items.
 
 The Solver class contains the solution of the challenge as well as the result. After the result is computed we go
-backwards through the items matrix from the resulted capacity and check if the weight matches.
+backward through the items matrix from the resulted capacity and check if the weight matches.
 
-Also created a LogEvent enum in which there are
+Also, I created a LogEvent enum in which there are errors described by code and message which are sent to APIException.
+
 # 3 Testing
-For testing I created unit tests for each class. For item and test cases we tests that the builder works and object
-is returned and also have test cases for different negative scenarios that occurs for constraints. For the log events
-we are testing only that the value of the errors messages matches.
-For Parser and FileReader we have different negative scenarios if the file content is incorrect or if file is empty
+For testing, I created unit tests for each class. For item and test cases we test that the builder works and object
+is returned and also have test cases for different negative scenarios that occur for constraints. For the log events,
+we are testing only that the value of the error messages matches.
+For Parser and FileReader we have different negative scenarios if the file content is incorrect or if the file is empty
 either if it has characters in it.
-For the solver test we check that the result computed by the solver matches the solution from the output file.
+For the solver test, we check that the result computed by the solver matches the solution from the output file.
