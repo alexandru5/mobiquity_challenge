@@ -1,0 +1,44 @@
+Name: Alexandru Comanescu
+
+######################################################################################################################
+################################################# CHALLENGE ##########################################################
+######################################################################################################################
+
+# 0 Problem
+You want to send your friend a package with different things. Each thing you put inside the package has such parameters
+as index number, weight and cost. The package has a weight limit. Your goal is to determine which things to put into the
+package so that the total weight is less than or equal to the package limit and the total cost is as large as possible.
+You would prefer to send a package which weighs less in case there is more than one package with the same price.
+
+Input example
+81 : (1,53.38,€45) (2,88.62,€98) (3,78.48,€3) (4,72.30,€76) (5,30.18,€9) (6,46.34,€48)
+
+# 1 Solution
+As this is a knaspack problem a little bit twisted I go with a dynamic solution and in order to do that
+the weight of the package will be multiplied by 100. Because they're not so many items to pick up from (MAX 15)
+it won't consume to much memory. As number of items and/or item's weight would increase this solution would cause
+problems as a matrix of size NO_OF_ITEMS x WEIGHT * 100 is created.
+
+After creating the matrix we iterate through it and for current step we check if weights is greater than capacity
+from current step and if not for current step we maximize profit.
+
+# 2 Java Implementation
+The Solution has two models Item that represent the object from package and TestCase that contains data for a scenario.
+So for both of them I used builder design pattern obtain with @Builder annotation from lombok. Also used different
+annotations from them as @Getter and @Setter as they make code cleaner and easy to understand.
+
+For input and output files we have FileReader class with two static methods that loads content from file into structures.
+This class uses the Parser in order to parse content from file and load it into objects. In it we also have two methods
+one that parse and loads an item and the other for a test case in which it loads test case max capacity and its items.
+
+The Solver class contains the solution of the challenge as well as the result. After the result is computed we go
+backwards through the items matrix from the resulted capacity and check if the weight matches.
+
+Also created a LogEvent enum in which there are
+# 3 Testing
+For testing I created unit tests for each class. For item and test cases we tests that the builder works and object
+is returned and also have test cases for different negative scenarios that occurs for constraints. For the log events
+we are testing only that the value of the errors messages matches.
+For Parser and FileReader we have different negative scenarios if the file content is incorrect or if file is empty
+either if it has characters in it.
+For the solver test we check that the result computed by the solver matches the solution from the output file.
